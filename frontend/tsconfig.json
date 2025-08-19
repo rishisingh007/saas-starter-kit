@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",       // compiled JS goes here
+    "rootDir": "src",       // sources live here
+    "noEmit": true,         // (if using Next.js, since Next.js compiles TS itself)
+    "allowJs": true,        // if you still keep some .js files
+    "skipLibCheck": true
+  },
+  "include": ["src"]
+}

@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Simple utility styles for forms/tables */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table th,
+.table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+.form-input {
+  @apply border rounded px-3 py-2 w-full;
+}
+.btn {
+  @apply inline-flex items-center justify-center rounded px-3 py-2;
+}
+.btn-primary {
+  @apply bg-blue-600 text-white hover:bg-blue-700;
+}
+.btn-danger {
+  @apply bg-red-600 text-white hover:bg-red-700;
+}
+.btn-warning {
+  @apply bg-yellow-500 text-white hover:bg-yellow-600;
+}
+.card {
+  @apply bg-white rounded shadow p-4;
+}
+.page {
+  @apply p-6;
+}
+.page-title {
+  @apply text-2xl font-bold mb-4;
+}

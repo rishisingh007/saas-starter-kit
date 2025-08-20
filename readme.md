@@ -1,4 +1,4 @@
-SaaS Starter Kit 🚀
+## SaaS Starter Kit 🚀
 
 A boilerplate multi-tenant SaaS starter kit with authentication, role-based access control, tenant management, and a React frontend. Designed to help you bootstrap SaaS products quickly with a NestJS backend and React + Tailwind frontend.
 
@@ -16,150 +16,140 @@ In this project, tenant separation is achieved by including a `tenantId` (or ten
 
 ✨ Features
 
-🔑 Authentication with JWT (login/logout)
+  * 🔑 Authentication with **JWT** (login/logout)
+  * 👤 User roles: **SUPER\_ADMIN**, **TENANT\_ADMIN**, **USER**
+  * 🏢 Tenant management with tenant-specific admins
+  * 🛡 Role-based authorization guards (`RolesGuard`)
+  * 📦 Seed data creator for initial setup (users, tenants)
+  * 🧑‍💻 Current user utility module for accessing logged-in user details in frontend
+  * 🎨 Frontend in **React** (Vite) + **TailwindCSS**
+  * ⚡ Backend in **NestJS** with **TypeORM** & **MySQL**
 
-👤 User roles: SUPER_ADMIN, TENANT_ADMIN, USER
+-----
 
-🏢 Tenant management with tenant-specific admins
+## 🔐 SaaS Role & Permission Model
 
-🛡 Role-based authorization guards (RolesGuard)
+### SUPER\_ADMIN
 
-📦 Seed data creator for initial setup (users, tenants)
+  * Can create tenants
+  * Can create Tenant Admins inside tenants
+  * ❌ Cannot directly create plain tenant users
 
-🧑‍💻 Current user utility module for accessing logged-in user details in frontend
+### TENANT\_ADMIN
 
-🎨 Frontend in React (Vite) + TailwindCSS
+  * Can create plain users within their tenant
+  * Can create other tenant admins within their tenant
+  * ❌ Cannot create tenants
+  * ❌ Cannot create or manage Super Admins
 
-⚡ Backend in NestJS with TypeORM & MySQL
+### USER (plain tenant user)
 
-🔐 SaaS Role & Permission Model
-
-SUPER_ADMIN
-
-Can create tenants
-
-Can create Tenant Admins inside tenants
-
-❌ Cannot directly create plain tenant users
-
-TENANT_ADMIN
-
-Can create plain users within their tenant
-
-Can create other tenant admins within their tenant
-
-❌ Cannot create tenants
-
-❌ Cannot create or manage Super Admins
-
-USER (plain tenant user)
-
-❌ Cannot create tenants
-
-❌ Cannot create or manage users
-
-Has access only to application functionality assigned
+  * ❌ Cannot create tenants
+  * ❌ Cannot create or manage users
+  * Has access only to application functionality assigned
 
 This enforces a clear separation of privileges for SaaS scalability and security.
 
-🛠 Tech Stack
-Backend
+-----
 
-NestJS
- (framework)
+## 🛠 Tech Stack
 
-TypeORM
- (ORM)
+### Backend
 
-MySQL
- (database)
+  * **NestJS** (framework)
+  * **TypeORM** (ORM)
+  * **MySQL** (database)
+  * **bcrypt** (password hashing)
+  * **JWT** (authentication)
 
-bcrypt
- (password hashing)
+### Frontend
 
-JWT
- (authentication)
+  * **React** (UI)
+  * **Tailwind CSS** (styling)
+  * **jwt-decode** (decode token in client)
+  * Fetch-based API client with request wrapper
 
-Frontend
+-----
 
-React
- (UI)
+## 🚀 Getting Started
 
-Tailwind CSS
- (styling)
+1.  **Clone the repo**
 
-jwt-decode
- (decode token in client)
+    ```bash
+    git clone https://github.com/your-username/your-repo.git
+    cd your-repo
+    ```
 
-Fetch-based API client with request wrapper
+2.  **Setup Backend**
 
-🚀 Getting Started
-1. Clone the repo
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
+    ```bash
+    cd backend
+    npm install
+    ```
 
-2. Setup Backend
-cd backend
-npm install
+    Create a `.env` file inside `backend/` with:
 
+    ```
+    DATABASE_HOST=localhost
+    DATABASE_PORT=3306
+    DATABASE_USER=root
+    DATABASE_PASS=yourpassword
+    DATABASE_NAME=saas_db
+    DEFAULT_USER_PASSWORD=password
+    ```
 
-Create a .env file inside backend/ with:
+    Run migrations / seed:
 
-DATABASE_HOST=localhost
-DATABASE_PORT=3306
-DATABASE_USER=root
-DATABASE_PASS=yourpassword
-DATABASE_NAME=saas_db
-DEFAULT_USER_PASSWORD=password
+    ```bash
+    npm run typeorm migration:run
+    npm run seed
+    ```
 
+    > 👉 **All users created during seeding** (including Super Admin & Tenant Admins) will have default password: `password`
+    > seed data examples:
+    > super admin uid: `superadmin@example.com` pwd: `password`
+    > tenant admin uid: `admin@acme.com` pwd: `password`
+    > create plain tenent users when application runs.
 
-Run migrations / seed:
+    Start backend:
 
-npm run typeorm migration:run
-npm run seed
+    ```bash
+    npx ts-node-dev --respawn src/main.ts
+    ```
 
+3.  **Setup Frontend**
 
-👉 All users created during seeding (including Super Admin & Tenant Admins) will have default password: password
-seed data examples: 
-super admin uid: superadmin@example.com   pwd: password
-tenant admin uid: admin@acme.com          pwd: password
-create plain tenent users when application runs.
+    ```bash
+    cd frontend
+    npm install
+    npm start
+    ```
 
+    Frontend will run at: `http://localhost:3000`
+    Backend runs at: `http://localhost:3001`
 
-Start backend:
+-----
 
-npx ts-node-dev --respawn src/main.ts
+## 📖 Usage
 
-3. Setup Frontend
-cd frontend
-npm install
-npm start
+  * **Login as SUPER\_ADMIN** (from seed data: `seed.ts`)
+  * **Create tenants**
+  * **Assign TENANT\_ADMIN** to tenants (auto-associates tenant ID)
+  * **Tenant Admins** can create tenant users and other tenant admins
+  * **Plain users** cannot create/manage any users
+  * Logged-in user details are accessible via `src/utils/auth.js`
 
+-----
 
-Frontend will run at: http://localhost:3000
-Backend runs at: http://localhost:3001
+## 📂 Project Structure
 
-📖 Usage
-
-Login as SUPER_ADMIN (from seed data: seed.ts)
-
-Create tenants
-
-Assign TENANT_ADMIN to tenants (auto-associates tenant ID)
-
-Tenant Admins can create tenant users and other tenant admins
-
-Plain users cannot create/manage any users
-
-Logged-in user details are accessible via src/utils/auth.js
-
-📂 Project Structure
+```
 /backend
   /src
     /modules
-        /auth
-        /users
-        /tenants
+      /auth
+      /users
+      /tenants
     /types
   .env
 /frontend
@@ -168,26 +158,25 @@ Logged-in user details are accessible via src/utils/auth.js
     /components
     /pages
     /utils (auth.js → get current user)
+```
 
-🤝 Contributing
+-----
 
-Fork the repo
+## 🤝 Contributing
 
-Create your feature branch (git checkout -b feature/foo)
+  * Fork the repo
+  * Create your feature branch (`git checkout -b feature/foo`)
+  * Commit changes (`git commit -m 'Add foo'`)
+  * Push branch (`git push origin feature/foo`)
+  * Create PR
 
-Commit changes (git commit -m 'Add foo')
+-----
 
-Push branch (git push origin feature/foo)
+## 📝 Notes
 
-Create PR
-
-📝 Notes
-
-Default password for all seeded users is password.
-
-Only Super Admins can create tenants.
-
-Use getCurrentUser() from utils/auth.js in frontend for quick access to logged-in user.
+  * Default password for all seeded users is `password`.
+  * Only Super Admins can create tenants.
+  * Use `getCurrentUser()` from `utils/auth.js` in frontend for quick access to logged-in user.
 
 ## Screenshots
 

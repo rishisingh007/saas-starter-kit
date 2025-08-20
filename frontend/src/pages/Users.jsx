@@ -180,13 +180,13 @@ export default function Users() {
                       className="btn btn-warning"
                       onClick={() => onEdit(u)}
                     >
-                      ✏️ Edit
+                      Edit
                     </button>
                     <button
                       className="btn btn-danger"
                       onClick={() => onDelete(u.id)}
                     >
-                      ❌ Delete
+                      Delete
                     </button>
                   </td>
                 </tr>

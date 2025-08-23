@@ -70,6 +70,34 @@ This enforces a clear separation of privileges for SaaS scalability and security
   * Fetch-based API client with request wrapper
 
 -----
+## 🧪 Testing
+
+This project includes sample test coverage for both the **frontend** and **backend**:
+
+### Frontend
+- **API Unit Tests**  
+  Located in the frontend codebase to validate API integration logic.  
+  These tests ensure correct request/response handling and proper error handling when interacting with the backend services.
+
+### Backend
+- **Service Layer Tests**  
+  Unit tests covering the core business logic in the service layer (e.g., authentication, user creation, tenant logic).  
+  They ensure that services behave correctly in isolation.
+
+- **End-to-End (E2E) Tests**  
+  A sample e2e test suite is provided, validating the complete request/response cycle across the backend, including controllers, services, and database integration.  
+  
+### Running Tests
+```bash
+# Frontend
+cd frontend
+npm test /npx jest
+
+# Backend
+cd backend
+npm run test         # unit tests
+npm run test:e2e    # end-to-end tests
+
 
 ## 🚀 Getting Started
 
